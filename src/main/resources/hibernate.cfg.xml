@@ -21,5 +21,7 @@
         <mapping class="ru.job4j.car.ModelCar"/>
         <mapping class="ru.job4j.manytomany.Author" />
         <mapping class="ru.job4j.manytomany.Book" />
+        <mapping class="ru.job4j.lazy.Mark" />
+        <mapping class="ru.job4j.lazy.Model" />
     </session-factory>
 </hibernate-configuration>
