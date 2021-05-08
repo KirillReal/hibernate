@@ -1,4 +1,4 @@
-package ru.job4j.modelsAndRelations;
+package ru.job4j.modelsandrelations;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -6,8 +6,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "driver")
-public class Driver {
+@Table(name = "car")
+public class CarRelation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -16,20 +16,25 @@ public class Driver {
     @Column(name = "name")
     private String name;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "engine_id")
+    private Engine engine;
+
     @ManyToMany(cascade = {
             CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH
     })
     @JoinTable(
             name = "history_owner",
-            joinColumns = @JoinColumn(name = "driver_id"),
-            inverseJoinColumns = @JoinColumn(name = "car_id")
+            joinColumns = @JoinColumn(name = "car_id"),
+            inverseJoinColumns = @JoinColumn(name = "driver_id")
     )
-    private Set<CarRelation> cars = new HashSet<>();
+    private Set<Driver> drivers = new HashSet<>();
 
-    public static Driver of(String name) {
-        Driver driver = new Driver();
-        driver.setName(name);
-        return driver;
+    public static CarRelation of(String name, Engine engine) {
+        CarRelation car = new CarRelation();
+        car.setName(name);
+        car.setEngine(engine);
+        return car;
     }
 
     public int getId() {
@@ -48,16 +53,24 @@ public class Driver {
         this.name = name;
     }
 
-    public Set<CarRelation> getCars() {
-        return cars;
+    public Engine getEngine() {
+        return engine;
     }
 
-    public void setCars(Set<CarRelation> cars) {
-        this.cars = cars;
+    public void setEngine(Engine engine) {
+        this.engine = engine;
     }
 
-    public void addCar(CarRelation car) {
-        this.cars.add(car);
+    public Set<Driver> getDrivers() {
+        return drivers;
+    }
+
+    public void setDrivers(Set<Driver> drivers) {
+        this.drivers = drivers;
+    }
+
+    public void addDriver(Driver driver) {
+        this.drivers.add(driver);
     }
 
     @Override
@@ -68,8 +81,8 @@ public class Driver {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Driver driver = (Driver) o;
-        return id == driver.id;
+        CarRelation car = (CarRelation) o;
+        return id == car.id;
     }
 
     @Override
@@ -79,9 +92,10 @@ public class Driver {
 
     @Override
     public String toString() {
-        return "Driver{"
+        return "Car{"
                 + "id=" + id
                 + ", name='" + name + '\''
+                + ", engine=" + engine
                 + "}";
     }
 }
