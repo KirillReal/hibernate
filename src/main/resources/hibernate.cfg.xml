@@ -26,5 +26,6 @@
         <mapping class="ru.job4j.modelsandrelations.CarRelation" />
         <mapping class="ru.job4j.modelsandrelations.Driver" />
         <mapping class="ru.job4j.modelsandrelations.Engine" />
+        <mapping class="ru.job4j.hql.Candidate" />
     </session-factory>
 </hibernate-configuration>
